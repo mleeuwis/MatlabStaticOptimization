@@ -843,6 +843,6 @@ end
 xlabel('time')
 ylabel('Activation')
 legHandle = legend(legNames,'location','northeastoutside') ;
-plotbrowser on
+% plotbrowser on
 toc
 diary off
