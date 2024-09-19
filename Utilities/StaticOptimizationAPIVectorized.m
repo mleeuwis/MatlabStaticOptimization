@@ -822,6 +822,11 @@ jointRxn.end(state) ;
 % jointRxn.printResults([outputFilePath 'results_JointReaction.sto']) ;
 jointRxn.printResults('results_JointReaction',outputFilePath,-1,'.sto') ;
 
+% Save activations as a table for future use
+T_Activations = array2table(Activations, "VariableNames", actuatorNames);
+T_Activations.time = timeVec;
+T_Activations = movevars(T_Activations, "time", "Before",1);
+writetable(T_Activations, [outputFilePath 'Activations.csv']);
 
 % Save Model (clear external Forces first - or will crash Opensim due to
 % bug if you try to open in GUI
