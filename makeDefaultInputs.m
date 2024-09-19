@@ -17,8 +17,8 @@ INPUTS.modelName = 'Rajagopal_scaled_Sub1_gasAvoid.osim' ; % model file name
 geometryPath = [baseDir '\Geometry'] ; % full path to geometry folder for Model. If pointing to Geometry folder in OpenSim install, leave this field blank: []
 
 % % % Set time for simulation % % %
-INPUTS.startTime = 10.9 ;
-INPUTS.endTime = 11.7 ;
+INPUTS.startTime = 60 ;
+INPUTS.endTime = 62 ;
 
 INPUTS.leg = 'l' ; % If deleteContralateralMuscles flag is true, actuates this leg
                    % with muscles and contralateral leg with coordinate actuators 
