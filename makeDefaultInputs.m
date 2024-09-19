@@ -2,7 +2,7 @@ function INPUTS = makeDefaultInputs()
 
 % % Path to the data and utility functions. No need to change this, unless
 % you rearrange the folder structure, differently from github.
-baseDir = [pwd '\..\Data\'] ; % Base Directory to base results directory.
+baseDir = [pwd '\..\OpenSim'] ; % Base Directory to base results directory.
 addpath(genpath('Utilities'))
 
 % % % Fill Path names
@@ -11,8 +11,8 @@ INPUTS.forceFilePath = [baseDir '\walking_baseline1_forces.mot'] ;  % Full path 
 INPUTS.ikFilePath = [baseDir '\results_ik.sto'] ; % Full path of IK file
 INPUTS.idFilePath = [baseDir '\results_id.sto'] ; % Full path of ID file
 INPUTS.emgFilePath = [baseDir '\EMG_allMuscles.sto'] ; % location of *.mot file with normalized EMG (if using EMG)
-INPUTS.outputFilePath = [baseDir '\results_SO\'] ; % full path for SO & JRA outputs
-INPUTS.modelDir = [baseDir] ; % full path to folder where model is
+INPUTS.outputFilePath = [baseDir '\6 - SO Uhlrich\'] ; % full path for SO & JRA outputs
+INPUTS.modelDir = [baseDir '\0 - models\'] ; % full path to folder where model is
 INPUTS.modelName = 'Rajagopal_scaled_Sub1_gasAvoid.osim' ; % model file name
 geometryPath = [baseDir '\Geometry'] ; % full path to geometry folder for Model. If pointing to Geometry folder in OpenSim install, leave this field blank: []
 
