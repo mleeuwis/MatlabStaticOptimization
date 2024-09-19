@@ -2,7 +2,7 @@ function INPUTS = makeDefaultInputs()
 
 % % Path to the data and utility functions. No need to change this, unless
 % you rearrange the folder structure, differently from github.
-baseDir = [pwd '\TestData\'] ; % Base Directory to base results directory.
+baseDir = [pwd '\..\Data\'] ; % Base Directory to base results directory.
 addpath(genpath('Utilities'))
 
 % % % Fill Path names
