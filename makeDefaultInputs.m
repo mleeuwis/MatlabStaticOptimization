@@ -73,9 +73,9 @@ INPUTS.prescribedActuationCoords = {} ; % A column cell with coordinates (exact 
 INPUTS.externalForceName = {'GRF_r','GRF_l'} ; % nForces x 1 cell
 INPUTS.applied_to_body = {'calcn_r','calcn_l'} ; 
 INPUTS.force_expressed_in_body =  {'ground','ground'} ;
-INPUTS.force_identifier = {'ground_force_v','1_ground_force_v'} ;
+INPUTS.force_identifier = {'ground_force_v','l_ground_force_v'} ;
 INPUTS.point_expressed_in_body = {'ground','ground'} ;
-INPUTS.point_identifier = {'ground_force_p','1_ground_force_p'} ;
+INPUTS.point_identifier = {'ground_force_p','l_ground_force_p'} ;
 
 % Joint Reaction Fields
 INPUTS.jRxn.inFrame = 'child' ;
