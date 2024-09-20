@@ -840,14 +840,14 @@ state = osimModel.initSystem() ; % Re-build the model before printing
 % osimModel.print([modelDir modelName(1:end-5) '_staticOpt.osim']);
 
 % Plot Output Activations
-figure
-for i = 0:size(Activations,2)-1
-    plot(repmat(timeVec,1,size(Activations,2)),Activations,'linewidth',2)
-    legNames{i+1} = char(actuators.get(i).getName()) ;
-end
-xlabel('time')
-ylabel('Activation')
-legHandle = legend(legNames,'location','northeastoutside') ;
+% figure
+% for i = 0:size(Activations,2)-1
+%     plot(repmat(timeVec,1,size(Activations,2)),Activations,'linewidth',2)
+%     legNames{i+1} = char(actuators.get(i).getName()) ;
+% end
+% xlabel('time')
+% ylabel('Activation')
+% legHandle = legend(legNames,'location','northeastoutside') ;
 % plotbrowser on
 toc
 diary off
