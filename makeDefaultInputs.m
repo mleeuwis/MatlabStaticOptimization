@@ -18,7 +18,7 @@ geometryPath = [baseDir '\Geometry'] ; % full path to geometry folder for Model.
 
 % % % Set time for simulation % % %
 INPUTS.startTime = 60 ;
-INPUTS.endTime = 62 ;
+INPUTS.endTime = 119.95 ;
 
 INPUTS.leg = 'l' ; % If deleteContralateralMuscles flag is true, actuates this leg
                    % with muscles and contralateral leg with coordinate actuators 
