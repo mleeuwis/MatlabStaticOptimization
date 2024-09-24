@@ -629,6 +629,8 @@ end
 
 % Preallocate design variable output matrix
 Activations = zeros(nTimeStepsComputed,nActuators) ;
+fiberLength = zeros(nTimeStepsComputed,nMuscles) ;
+musclePower = zeros(nTimeStepsComputed,nMuscles) ;
 timePerStep = zeros(nTimeStepsComputed,1) ;
 costVal = zeros(nTimeStepsComputed,1) ;
 timeVec = zeros(nTimeStepsComputed,1) ;
@@ -792,6 +794,12 @@ for tInd_ML = 1:nTimeStepInterval:nTimeSteps ; % counter is Matlab indexing
     osimModel.equilibrateMuscles(state);
     osimModel.realizeAcceleration(state) ; % moves stage back to acceleration after setting control function
 
+    % Get additional metrics from all muscles
+    for i = 1:nMuscles
+        fiberLength(tInd_ML,i)  = muscles.get(i-1).getFiberLength(state);
+        musclePower(tInd_ML,i) = muscles.get(i-1).getMusclePower(state);
+    end
+
     % Run Analyses for full static optimization solution
     if tInd_ML == 1
         forceReport.begin(state) ;
@@ -832,6 +840,20 @@ T_Activations.time = timeVec;
 T_Activations = movevars(T_Activations, "time", "Before",1);
 T_Activations(T_Activations.time == 0, :) = []; % Delete parts where time is exact zero
 writetable(T_Activations, [outputFilePath 'Activations.csv']);
+
+% Save fiber length as a table for future use
+T_fiberLength = array2table(fiberLength, "VariableNames", muscleNames);
+T_fiberLength.time = timeVec;
+T_fiberLength = movevars(T_fiberLength, "time", "Before",1);
+T_fiberLength(T_fiberLength.time == 0, :) = []; % Delete parts where time is exact zero
+writetable(T_fiberLength, [outputFilePath 'fiberLength.csv']);
+
+% Save muscle power as a table for future use
+T_musclePower = array2table(musclePower, "VariableNames", muscleNames);
+T_musclePower.time = timeVec;
+T_musclePower = movevars(T_musclePower, "time", "Before",1);
+T_musclePower(T_musclePower.time == 0, :) = []; % Delete parts where time is exact zero
+writetable(T_musclePower, [outputFilePath 'musclePower.csv']);
 
 % Save Model (clear external Forces first - or will crash Opensim due to
 % bug if you try to open in GUI
