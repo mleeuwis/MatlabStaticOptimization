@@ -54,7 +54,7 @@ INPUTS.emgSumThreshold = 0 ; % If sum of emg pairs is less than this it won't sh
 
 % Weights for reserves, muscles. The weight is in
 % the cost function as sum(w*(whatever^2)), so the weight is not squared.
-INPUTS.reserveActuatorWeights = 1 ; 
+INPUTS.reserveActuatorWeights = 10 ; 
 INPUTS.muscleWeights = 1 ;
 INPUTS.ipsilateralActuatorStrength = 1 ;
 INPUTS.contralateralActuatorStrength = 100 ;
