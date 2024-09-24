@@ -581,6 +581,7 @@ jointRxn.print([outputFilePath 'JrxnSetup.xml']) ;
 [~, endRow_ML] = min(abs(endTime-timeIK_ML)) ;
 timeVec_sim = timeIK_ML(startRow_ML:endRow_ML) ;
 nTimeSteps = length(timeVec_sim) ; % Number of iterations through the time loop
+nTimeStepsComputed = 1 + floor(nTimeSteps / nTimeStepInterval);
 
 % Sync ID moments matrix to match this time range
 momentsID_sim = interp1(timeID_ML,momentsID,timeVec_sim) ;
@@ -627,10 +628,10 @@ end
          'MaxIter',10000,'Algorithm','interior-point');
 
 % Preallocate design variable output matrix
-Activations = zeros(nTimeSteps,nActuators) ;
-timePerStep = zeros(nTimeSteps) ;
-costVal = zeros(nTimeSteps,1) ;
-timeVec = zeros(nTimeSteps,1) ;
+Activations = zeros(nTimeStepsComputed,nActuators) ;
+timePerStep = zeros(nTimeStepsComputed,1) ;
+costVal = zeros(nTimeStepsComputed,1) ;
+timeVec = zeros(nTimeStepsComputed,1) ;
 stateVector_ML = zeros(nStates,1) ;
 
 % Set unchanging variables to pass to optimizer in params
@@ -829,6 +830,7 @@ jointRxn.printResults('results_JointReaction',outputFilePath,-1,'.sto') ;
 T_Activations = array2table(Activations, "VariableNames", actuatorNames);
 T_Activations.time = timeVec;
 T_Activations = movevars(T_Activations, "time", "Before",1);
+T_Activations(T_Activations.time == 0, :) = []; % Delete parts where time is exact zero
 writetable(T_Activations, [outputFilePath 'Activations.csv']);
 
 % Save Model (clear external Forces first - or will crash Opensim due to
