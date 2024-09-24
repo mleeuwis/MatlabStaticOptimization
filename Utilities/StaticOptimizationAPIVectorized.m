@@ -74,6 +74,9 @@ jRxn.jointNames = INPUTS.jRxn.jointNames ;
 
 passiveForceStrains = INPUTS.passiveForceStrains ;
 
+% Matto Leeuwis: custom inputs
+nTimeStepInterval = INPUTS.nTimeStepInterval;
+
 % % % % % % END OF INPUTS % % % % % % % % % % % % % % % % % % % % % % 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
@@ -661,7 +664,7 @@ params.actuatorStrength_prescribed =  actuatorStrength_prescribed ;
 
 tLast = toc ;
 % % Time-stepping Optimization Loop
-for tInd_ML = 1:nTimeSteps ; % counter is Matlab indexing
+for tInd_ML = 1:nTimeStepInterval:nTimeSteps ; % counter is Matlab indexing
     rowInd_ML = startRow_ML-1+tInd_ML ; % Matlab Row Index
     t = timeIK_ML(rowInd_ML) ;
     timeVec(tInd_ML) = t ;

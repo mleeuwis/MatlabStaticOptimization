@@ -85,6 +85,9 @@ INPUTS.jRxn.jointNames = ['all'] ;
 INPUTS.passiveForceStrains = [3 4] ; % Default = [0,.7] this is strain at zero force and strain at 1 norm force in Millard model
                                      % This only matters if ignorePassiveForces = true
 
+% Custom inputs
+INPUTS.nTimeStepInterval = 5 ;       % The interval with which steps are skipped, defined as 1:nTimeStepInterval:nTimeSteps
+                                     % This interval acts similar to how it is defined for the default static optimizer.
 % % % % % END OF USER INPUTS % % % % %% % % % %% % % % %% % % % %% % % % %
 
 
