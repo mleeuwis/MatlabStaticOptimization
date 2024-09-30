@@ -628,16 +628,18 @@ end
          'MaxIter',10000,'Algorithm','interior-point');
 
 % Preallocate design variable output matrix
-Activations = zeros(nTimeStepsComputed,nActuators) ;
-fiberLength = zeros(nTimeStepsComputed,nMuscles) ;
-fiberForce  = zeros(nTimeStepsComputed,nMuscles) ;
-tendonForce = zeros(nTimeStepsComputed,nMuscles) ;
-musclePower = zeros(nTimeStepsComputed,nMuscles) ;
+Activations     = zeros(nTimeStepsComputed,nActuators) ;
+fiberLength     = zeros(nTimeStepsComputed,nMuscles) ;
+fiberVelocity   = zeros(nTimeStepsComputed,nMuscles) ;
+fiberForce      = zeros(nTimeStepsComputed,nMuscles) ;
+tendonForce     = zeros(nTimeStepsComputed,nMuscles) ;
+musclePower     = zeros(nTimeStepsComputed,nMuscles) ;
+tendonLength    = zeros(nTimeStepsComputed,nMuscles) ;
 
-timePerStep = zeros(nTimeStepsComputed,1) ;
-costVal = zeros(nTimeStepsComputed,1) ;
-timeVec = zeros(nTimeStepsComputed,1) ;
-stateVector_ML = zeros(nStates,1) ;
+timePerStep     = zeros(nTimeStepsComputed,1) ;
+costVal         = zeros(nTimeStepsComputed,1) ;
+timeVec         = zeros(nTimeStepsComputed,1) ;
+stateVector_ML  = zeros(nStates,1) ;
 
 % Set unchanging variables to pass to optimizer in params
 params.coords = coords ;
@@ -799,10 +801,12 @@ for tInd_ML = 1:nTimeStepInterval:nTimeSteps ; % counter is Matlab indexing
 
     % Get additional metrics from all muscles
     for i = 1:nMuscles
-        fiberLength(tInd_ML,i)  = muscles.get(i-1).getFiberLength(state);
-        fiberForce(tInd_ML,i)   = muscles.get(i-1).getFiberForce(state);
-        tendonForce(tInd_ML,i)   = muscles.get(i-1).getTendonForce(state);
-        musclePower(tInd_ML,i)  = muscles.get(i-1).getMusclePower(state); 
+        fiberLength(tInd_ML,i)      = muscles.get(i-1).getFiberLength(state);
+        fiberVelocity(tInd_ML,i)    = muscles.get(i-1).getFiberVelocity(state);
+        fiberForce(tInd_ML,i)       = muscles.get(i-1).getFiberForce(state);
+        tendonForce(tInd_ML,i)      = muscles.get(i-1).getTendonForce(state);
+        musclePower(tInd_ML,i)      = muscles.get(i-1).getMusclePower(state); 
+        tendonLength(tInd_ML,i)     = muscles.get(i-1).getTendonLength(state); 
     end
 
     % Run Analyses for full static optimization solution
@@ -853,7 +857,15 @@ T_fiberLength = movevars(T_fiberLength, "time", "Before",1);
 T_fiberLength(T_fiberLength.time == 0, :) = []; % Delete parts where time is exact zero
 writetable(T_fiberLength, [outputFilePath 'fiberLength.csv']);
 
-% Save muscle power as a table for future use
+% Save fiber velocity as a table for future use
+T_fiberVelocity = array2table(fiberVelocity, "VariableNames", muscleNames);
+T_fiberVelocity.time = timeVec;
+T_fiberVelocity = movevars(T_fiberVelocity, "time", "Before",1);
+T_fiberVelocity(T_fiberVelocity.time == 0, :) = []; % Delete parts where time is exact zero
+writetable(T_fiberVelocity, [outputFilePath 'fiberVelocity.csv']);
+
+% Save muscle power as a table for future use (should be equal to
+% fiberVelocity * fiberForce)
 T_musclePower = array2table(musclePower, "VariableNames", muscleNames);
 T_musclePower.time = timeVec;
 T_musclePower = movevars(T_musclePower, "time", "Before",1);
@@ -873,6 +885,13 @@ T_tendonForce.time = timeVec;
 T_tendonForce = movevars(T_tendonForce, "time", "Before",1);
 T_tendonForce(T_tendonForce.time == 0, :) = []; % Delete parts where time is exact zero
 writetable(T_tendonForce, [outputFilePath 'tendonForce.csv']);
+
+% Save tendon force as a table for future use
+T_tendonLength = array2table(tendonLength, "VariableNames", muscleNames);
+T_tendonLength.time = timeVec;
+T_tendonLength = movevars(T_tendonLength, "time", "Before",1);
+T_tendonLength(T_tendonLength.time == 0, :) = []; % Delete parts where time is exact zero
+writetable(T_tendonLength, [outputFilePath 'tendonLength.csv']);
 
 
 % Save Model (clear external Forces first - or will crash Opensim due to
