@@ -632,6 +632,7 @@ Activations     = zeros(nTimeStepsComputed,nActuators) ;
 fiberLength     = zeros(nTimeStepsComputed,nMuscles) ;
 fiberVelocity   = zeros(nTimeStepsComputed,nMuscles) ;
 fiberForce      = zeros(nTimeStepsComputed,nMuscles) ;
+passiveFiberForce   = zeros(nTimeStepsComputed,nMuscles) ;
 tendonForce     = zeros(nTimeStepsComputed,nMuscles) ;
 musclePower     = zeros(nTimeStepsComputed,nMuscles) ;
 tendonLength    = zeros(nTimeStepsComputed,nMuscles) ;
@@ -804,6 +805,7 @@ for tInd_ML = 1:nTimeStepInterval:nTimeSteps ; % counter is Matlab indexing
         fiberLength(tInd_ML,i)      = muscles.get(i-1).getFiberLength(state);
         fiberVelocity(tInd_ML,i)    = muscles.get(i-1).getFiberVelocity(state);
         fiberForce(tInd_ML,i)       = muscles.get(i-1).getFiberForce(state);
+        passiveFiberForce(tInd_ML,i)= muscles.get(i-1).getPassiveFiberForce(state);
         tendonForce(tInd_ML,i)      = muscles.get(i-1).getTendonForce(state);
         musclePower(tInd_ML,i)      = muscles.get(i-1).getMusclePower(state); 
         tendonLength(tInd_ML,i)     = muscles.get(i-1).getTendonLength(state); 
@@ -878,6 +880,13 @@ T_fiberForce.time = timeVec;
 T_fiberForce = movevars(T_fiberForce, "time", "Before",1);
 T_fiberForce(T_fiberForce.time == 0, :) = []; % Delete parts where time is exact zero
 writetable(T_fiberForce, [outputFilePath 'fiberForce.csv']);
+
+% Save passive fiber force as a table for future use
+T_passiveFiberForce = array2table(passiveFiberForce, "VariableNames", muscleNames);
+T_passiveFiberForce.time = timeVec;
+T_passiveFiberForce = movevars(T_passiveFiberForce, "time", "Before",1);
+T_passiveFiberForce(T_passiveFiberForce.time == 0, :) = []; % Delete parts where time is exact zero
+writetable(T_passiveFiberForce, [outputFilePath 'passiveFiberForce.csv']);
 
 % Save tendon force as a table for future use
 T_tendonForce = array2table(tendonForce, "VariableNames", muscleNames);
