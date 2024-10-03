@@ -628,19 +628,19 @@ end
          'MaxIter',10000,'Algorithm','interior-point');
 
 % Preallocate design variable output matrix
-Activations     = zeros(nTimeStepsComputed,nActuators) ;
-fiberLength     = zeros(nTimeStepsComputed,nMuscles) ;
-fiberVelocity   = zeros(nTimeStepsComputed,nMuscles) ;
-fiberForce      = zeros(nTimeStepsComputed,nMuscles) ;
+Activations         = zeros(nTimeStepsComputed,nActuators) ;
+fiberLength         = zeros(nTimeStepsComputed,nMuscles) ;
+fiberVelocity       = zeros(nTimeStepsComputed,nMuscles) ;
+fiberForce          = zeros(nTimeStepsComputed,nMuscles) ;
 passiveFiberForce   = zeros(nTimeStepsComputed,nMuscles) ;
-tendonForce     = zeros(nTimeStepsComputed,nMuscles) ;
-musclePower     = zeros(nTimeStepsComputed,nMuscles) ;
-tendonLength    = zeros(nTimeStepsComputed,nMuscles) ;
+tendonForce         = zeros(nTimeStepsComputed,nMuscles) ;
+musclePower         = zeros(nTimeStepsComputed,nMuscles) ;
+tendonLength        = zeros(nTimeStepsComputed,nMuscles) ;
 
-timePerStep     = zeros(nTimeStepsComputed,1) ;
-costVal         = zeros(nTimeStepsComputed,1) ;
-timeVec         = zeros(nTimeStepsComputed,1) ;
-stateVector_ML  = zeros(nStates,1) ;
+timePerStep         = zeros(nTimeStepsComputed,1) ;
+costVal             = zeros(nTimeStepsComputed,1) ;
+timeVec             = zeros(nTimeStepsComputed,1) ;
+stateVector_ML      = zeros(nStates,1) ;
 
 % Set unchanging variables to pass to optimizer in params
 params.coords = coords ;
@@ -802,13 +802,13 @@ for tInd_ML = 1:nTimeStepInterval:nTimeSteps ; % counter is Matlab indexing
 
     % Get additional metrics from all muscles
     for i = 1:nMuscles
-        fiberLength(tInd_ML,i)      = muscles.get(i-1).getFiberLength(state);
-        fiberVelocity(tInd_ML,i)    = muscles.get(i-1).getFiberVelocity(state);
-        fiberForce(tInd_ML,i)       = muscles.get(i-1).getFiberForce(state);
-        passiveFiberForce(tInd_ML,i)= muscles.get(i-1).getPassiveFiberForce(state);
-        tendonForce(tInd_ML,i)      = muscles.get(i-1).getTendonForce(state);
-        musclePower(tInd_ML,i)      = muscles.get(i-1).getMusclePower(state); 
-        tendonLength(tInd_ML,i)     = muscles.get(i-1).getTendonLength(state); 
+        fiberLength(tInd_ML,i)          = muscles.get(i-1).getFiberLength(state);
+        fiberVelocity(tInd_ML,i)        = muscles.get(i-1).getFiberVelocity(state);
+        fiberForce(tInd_ML,i)           = muscles.get(i-1).getFiberForce(state);
+        passiveFiberForce(tInd_ML,i)    = muscles.get(i-1).getPassiveFiberForce(state);
+        tendonForce(tInd_ML,i)          = muscles.get(i-1).getTendonForce(state);
+        musclePower(tInd_ML,i)          = muscles.get(i-1).getMusclePower(state); 
+        tendonLength(tInd_ML,i)         = muscles.get(i-1).getTendonLength(state); 
     end
 
     % Run Analyses for full static optimization solution
