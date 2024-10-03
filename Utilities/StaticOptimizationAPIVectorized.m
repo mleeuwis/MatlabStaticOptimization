@@ -886,7 +886,7 @@ T_tendonForce = movevars(T_tendonForce, "time", "Before",1);
 T_tendonForce(T_tendonForce.time == 0, :) = []; % Delete parts where time is exact zero
 writetable(T_tendonForce, [outputFilePath 'tendonForce.csv']);
 
-% Save tendon force as a table for future use
+% Save tendon length as a table for future use
 T_tendonLength = array2table(tendonLength, "VariableNames", muscleNames);
 T_tendonLength.time = timeVec;
 T_tendonLength = movevars(T_tendonLength, "time", "Before",1);
